@@ -1,0 +1,44 @@
+﻿
+    <!-- Page Content -->
+    <div class="page-heading contact-heading header-text">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="text-content">
+              <h4>สินค้า</h4>
+              <h2>let’s get in touch</h2>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div   id="main_product_list"></div>
+
+    <div class="text-center  m-4 p-4">
+
+        <div class="alert alert-success m-4 p-4" role="alert">
+          <h4 class="alert-heading">ส่งข้อความสำเร็จ</h4>
+          <p>ข้อความถูกส่งแล้ว ทางร้านจะติดต่อกลับเพื่อให้ข้อมูล และข้อเสนอที่ดีโดยเร็วที่สุดนะคะ</p>
+          <hr>
+          <p class="mb-0">ขอบคุณที่ไว้วางใจใช้บริการกับเรา พีเอสไม้อัดไทย.</p>
+        </div>
+    
+        <a href='@Url.Action("Index", "Product")'>กลับหน้าสินค้าทั้งหมด <i class="fa fa-angle-right"></i></a>
+              
+    </div>
+@section Scripts {
+    <script>
+        // Shorthand for $( document ).ready()
+        $(function() {
+            var main_product_list = document.getElementById("main_product_list");
+
+            main_product_list.scrollIntoView({
+              behavior: "smooth",
+              block: "start",
+              inline: "nearest"
+            });
+        })
+
+    </script>
+}

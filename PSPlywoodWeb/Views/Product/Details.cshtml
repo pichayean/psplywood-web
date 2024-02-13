@@ -1,15 +1,119 @@
-﻿@model PSPlywoodWeb.Models.Products.ProductViewModel
+﻿
+    <!-- Page Content -->
+    <div class="page-heading contact-heading header-text">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="text-content">
+              <h4>สินค้า</h4>
+              <h2>let’s get in touch</h2>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div   id="main_product_list"></div>
 
-@{
-    ViewData["Title"] = "Details";
-}
+    <div class="find-us">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="section-heading">
+              <h2>ไม้อัดเคลือบฟิล์มดำ เบอร์ 15 เกรด AA สิงห์โต ขนาด 120 x 240 ซม. สีชมพู - ส้ม</h2> 
+            </div>
+          </div>
+          <div class="col-md-8">
+            <div class="col-md-12">
+              <img width="100%" src="https://m.media-amazon.com/images/I/812LEj2EdZL._AC_UF1000,1000_QL80_.jpg" alt="..." class="img-thumbnail">
+            </div>
+            <div class="col-md-12 mt-4 mb-4" >
+              <img width="50" src="https://m.media-amazon.com/images/I/812LEj2EdZL._AC_UF1000,1000_QL80_.jpg" alt="..." class="img-thumbnail">
+              <img width="50" src="https://m.media-amazon.com/images/I/812LEj2EdZL._AC_UF1000,1000_QL80_.jpg" alt="..." class="img-thumbnail">
+              <img width="50" src="https://m.media-amazon.com/images/I/812LEj2EdZL._AC_UF1000,1000_QL80_.jpg" alt="..." class="img-thumbnail">
+              <img width="50" src="https://m.media-amazon.com/images/I/812LEj2EdZL._AC_UF1000,1000_QL80_.jpg" alt="..." class="img-thumbnail">
+              <img width="50" src="https://m.media-amazon.com/images/I/812LEj2EdZL._AC_UF1000,1000_QL80_.jpg" alt="..." class="img-thumbnail">
+              <img width="50" src="https://m.media-amazon.com/images/I/812LEj2EdZL._AC_UF1000,1000_QL80_.jpg" alt="..." class="img-thumbnail">
+              <img width="50" src="https://m.media-amazon.com/images/I/812LEj2EdZL._AC_UF1000,1000_QL80_.jpg" alt="..." class="img-thumbnail">
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="left-content">
+              <h4>ไม้อัดเคลือบฟิล์มดำ เบอร์ 15 เกรด AA สิงห์โต ขนาด 120 x 240 ซม. สีชมพู - ส้ม</h4> 
+              <h3>ราคา 590 บาท</h3>
+              <p>ไม้อัดเคลือบฟิล์มดำ เกรด AA มาตรฐานการผลิตคุณภาพดีจาก แบรนด์ สิงห์โต ผู้นำเข้าไม้อัดจากต่างประเทศ 
+                  ไม่ว่าจะเป็นประเทศจีน ประเทศมาเลเซีย ประเทศเวียดนาม เนื้อไม้มีความหนาแน่นสูง ทนทาน แข็งแรง
+                  <br>
+                  <br>
+                  พร้อมเคลือบฟิล์มดำทำให้ทนต่อการใช้งานกลางแจ้ง เหมาะสำหรับงานก่อสร้าง งานหล่อแบบเสา 
+                  โดยสามารถนำกลับมาใช้ใหม่ได้หลายครั้ง
+                  
+                  <br>
+                  <br>
+                  รหัสสินค้า: 60143957
+                  <br>
+                  <br>
+                  สามารถติดต่อสอบถามหรือสั่งซื้อได้ทั้งสองช่องทางด้านล่างได้เลยนะคะ 
+              </p>
+              <div class="text-center">
+                <div class="md-12">
+                    <button type="button" class="btn btn-xs btn-primary m-2" data-toggle="modal" data-target="#exampleModal">
+                    ติดต่อสอบถาม | สั่งซืื้อ
+                    </button>
+                </div>
+                <div class="md-12 mt-2">
+                    <b>Scan QRCode เพื่อติดต่อสอบถามหรือสั่งซืื้อ </b>
+                </div>
+                <div class="md-12">
+                    <img width="150" src="https://qr-official.line.me/gs/M_067vmrrf_GW.png?oat_content=qr">
+                </div>
+              </div>
+             @* <ul class="social-icons text-center">
+                <li><img width="150" src="https://qr-official.line.me/gs/M_067vmrrf_GW.png?oat_content=qr"></li>
+              </ul>*@
+              
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
 
-<h1>Details</h1>
 
-<div>
-    <h4>ProductViewModel</h4>
-    <hr />
-    <dl class="row">
-    </dl>
+                  
+<!-- Modal -->
+<div class="modal fade" style="padding-top:100px" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">กรุณากรอกเบอร์โทรศัพทย์ ทางร้านจะรีบติดต่อกลับโดยเร็วค่ะ</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="col-lg-12 col-md-12 col-sm-12">
+            <input name="name" type="text" class="form-control" id="name" placeholder="เบอร์โทร" required="">
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <a class="btn btn-primary" href="@Url.Action("Order","Product",  new { productId = 1})">ติดต่อสอบถาม | สั่งซืื้อ</a>
+      </div>
+    </div>
+  </div>
 </div>
+@section Scripts {
+    <script>
+        // Shorthand for $( document ).ready()
+        $(function() {
+            var main_product_list = document.getElementById("main_product_list");
 
+            main_product_list.scrollIntoView({
+              behavior: "smooth",
+              block: "start",
+              inline: "nearest"
+            });
+        })
+
+    </script>
+}

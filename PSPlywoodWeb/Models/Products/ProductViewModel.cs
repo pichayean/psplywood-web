@@ -1,7 +1,9 @@
-﻿namespace PSPlywoodWeb.Models.Products
+﻿using PSPlywoodWeb.Services.ResultModel;
+
+namespace PSPlywoodWeb.Models.Products
 {
     public class ProductViewModel
     {
-        public int Id { get; set; }
+        public List<CategoryResultModel> Categories { get; set; }
     }
 }

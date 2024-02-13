@@ -1,27 +1,33 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using PSPlywoodWeb.Models;
+using PSPlywoodWeb.Models.Products;
+using PSPlywoodWeb.Services;
 using System.Diagnostics;
+using System.Net.Http.Headers;
+using System.Text;
 
 namespace PSPlywoodWeb.Controllers
 {
     public class HomeController : Controller
     {
+        private readonly IPSPlywoodService _psPlywoodService;
         private readonly ILogger<HomeController> _logger;
-
-        public HomeController(ILogger<HomeController> logger)
+        
+        public HomeController(IPSPlywoodService psPlywoodService, ILogger<HomeController> logger)
         {
+            _psPlywoodService = psPlywoodService;
             _logger = logger;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View();
+            var categories = await _psPlywoodService.GetCategoriesAsync();
+            return View(new ProductViewModel
+            {
+                Categories = categories,
+            });
         }
 
-        public IActionResult Privacy()
-        {
-            return View();
-        }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
