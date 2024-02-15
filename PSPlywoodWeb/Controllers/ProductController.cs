@@ -21,6 +21,7 @@ namespace PSPlywoodWeb.Controllers
 
         public async Task<IActionResult> Index()
         {
+            var products = await _service.GetProductsAsync(1);
             return View();
         }
 

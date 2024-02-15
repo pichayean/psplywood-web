@@ -22,9 +22,27 @@ namespace PSPlywoodWeb.Controllers
         public async Task<IActionResult> Index()
         {
             var categories = await _psPlywoodService.GetCategoriesAsync();
+            var products = await _psPlywoodService.GetProductsAsync(0);
+            var settings = await _psPlywoodService.GetSettingsAsync();
+            var contact = await _psPlywoodService.GetContactUsAsync();
+            if (products.Any() && products.Count < 6)
+            {
+                foreach (var item in products)
+                {
+                    item.productName = item.productName.Length > 30 ? item.productName.Substring(0, 30) + "..." : item.productName;
+                }
+                var cnt = 6 - products.Count;
+                for (var i = 0; i < cnt; i++)
+                {
+                    products.Add(products.FirstOrDefault());
+                }
+            }
             return View(new ProductViewModel
             {
                 Categories = categories,
+                Products = products,
+                Contact = contact,
+                Settings = settings
             });
         }
 

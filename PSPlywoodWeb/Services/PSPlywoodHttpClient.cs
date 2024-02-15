@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using PSPlywoodWeb.Services.ResultModel;
+using System.Net.Http.Headers;
 using System.Text;
 
 namespace PSPlywoodWeb.Services
@@ -68,7 +69,7 @@ namespace PSPlywoodWeb.Services
         {
             string jsonRequest = JsonConvert.SerializeObject(new
             {
-                categoryId = categoryId,
+                categoryId = -1,
             });
             var content = new StringContent(jsonRequest, Encoding.UTF8, "application/json");
             var response = await _httpClient.PostAsync("api/DisplayShop/GetProductsDisplayLanddingShop", content);
@@ -111,7 +112,7 @@ namespace PSPlywoodWeb.Services
                 productId = productId
             });
             var content = new StringContent(jsonRequest, Encoding.UTF8, "application/json");
-            var response = await _httpClient.PostAsync("api/orders/UserWillOrder", content);
+            //var response = await _httpClient.PostAsync("api/orders/UserWillOrder", content);
         }
     }
 }

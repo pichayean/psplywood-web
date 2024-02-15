@@ -6,6 +6,7 @@
         public string productName { get; set; }
         public string coverUrl { get; set; }
         public string productDetail { get; set; }
+        public string productDetail2 { get; set; }
         public int? categoryId { get; set; }
         public System.DateTime? createDate { get; set; }
         public Nullable<bool> IsNew { get; set; }
