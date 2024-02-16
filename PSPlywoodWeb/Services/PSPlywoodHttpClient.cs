@@ -50,7 +50,7 @@ namespace PSPlywoodWeb.Services
 
         public async Task<ProductResultModel> GetProductDetailAsync(int id)
         {
-            var response = await _httpClient.GetAsync($"api/DisplayShop/GetProductDisplayLanddingShop/{id}");
+            var response = await _httpClient.GetAsync($"api/DisplayShop/GetProductDisplayLanddingShop?id={id}");
             if (response.IsSuccessStatusCode)
             {
                 string responseBody = await response.Content.ReadAsStringAsync();
@@ -108,7 +108,7 @@ namespace PSPlywoodWeb.Services
         {
             string jsonRequest = JsonConvert.SerializeObject(new
             {
-                mobileNumber = mobileNumber,
+                mobileNo = mobileNumber,
                 productId = productId
             });
             var content = new StringContent(jsonRequest, Encoding.UTF8, "application/json");

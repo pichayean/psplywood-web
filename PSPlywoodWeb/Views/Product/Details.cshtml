@@ -1,12 +1,14 @@
-﻿
+﻿@using PSPlywoodWeb.Models.Products;
+@model PSPlywoodWeb.Models.Products.ProductDetailViewModel;
+
     <!-- Page Content -->
-    <div class="page-heading contact-heading header-text">
+    <div class="page-heading products-heading header-text">
       <div class="container">
         <div class="row">
           <div class="col-md-12">
             <div class="text-content">
-              <h4>สินค้า</h4>
-              <h2>let’s get in touch</h2>
+              <h4>พีเอสไม้อัดไทย</h4>
+              <h2>ไม้อัดคุณภาพดี ราคาประหยัด!</h2>
             </div>
           </div>
         </div>
@@ -20,28 +22,53 @@
         <div class="row">
           <div class="col-md-12">
             <div class="section-heading">
-              <h2>ไม้อัดเคลือบฟิล์มดำ เบอร์ 15 เกรด AA สิงห์โต ขนาด 120 x 240 ซม. สีชมพู - ส้ม</h2> 
+              <h2>@Model.Product.productName</h2> 
             </div>
           </div>
           <div class="col-md-8">
             <div class="col-md-12">
-              <img width="100%" src="https://m.media-amazon.com/images/I/812LEj2EdZL._AC_UF1000,1000_QL80_.jpg" alt="..." class="img-thumbnail">
+              <img width="100%" src='@Model.Product.coverUrl' alt="..." class="img-thumbnail">
+              @*<img width="100%" src="https://m.media-amazon.com/images/I/812LEj2EdZL._AC_UF1000,1000_QL80_.jpg" alt="..." class="img-thumbnail">*@
             </div>
             <div class="col-md-12 mt-4 mb-4" >
-              <img width="50" src="https://m.media-amazon.com/images/I/812LEj2EdZL._AC_UF1000,1000_QL80_.jpg" alt="..." class="img-thumbnail">
-              <img width="50" src="https://m.media-amazon.com/images/I/812LEj2EdZL._AC_UF1000,1000_QL80_.jpg" alt="..." class="img-thumbnail">
-              <img width="50" src="https://m.media-amazon.com/images/I/812LEj2EdZL._AC_UF1000,1000_QL80_.jpg" alt="..." class="img-thumbnail">
-              <img width="50" src="https://m.media-amazon.com/images/I/812LEj2EdZL._AC_UF1000,1000_QL80_.jpg" alt="..." class="img-thumbnail">
-              <img width="50" src="https://m.media-amazon.com/images/I/812LEj2EdZL._AC_UF1000,1000_QL80_.jpg" alt="..." class="img-thumbnail">
-              <img width="50" src="https://m.media-amazon.com/images/I/812LEj2EdZL._AC_UF1000,1000_QL80_.jpg" alt="..." class="img-thumbnail">
-              <img width="50" src="https://m.media-amazon.com/images/I/812LEj2EdZL._AC_UF1000,1000_QL80_.jpg" alt="..." class="img-thumbnail">
+                @for (int i = 0; i < 8; i++)
+                {
+                    <img width="100" style="margin-bottom:1px" src="https://m.media-amazon.com/images/I/812LEj2EdZL._AC_UF1000,1000_QL80_.jpg" alt="..." class="img-thumbnail">
+                }
             </div>
           </div>
           <div class="col-md-4">
             <div class="left-content">
-              <h4>ไม้อัดเคลือบฟิล์มดำ เบอร์ 15 เกรด AA สิงห์โต ขนาด 120 x 240 ซม. สีชมพู - ส้ม</h4> 
-              <h3>ราคา 590 บาท</h3>
-              <p>ไม้อัดเคลือบฟิล์มดำ เกรด AA มาตรฐานการผลิตคุณภาพดีจาก แบรนด์ สิงห์โต ผู้นำเข้าไม้อัดจากต่างประเทศ 
+              <h4>@Model.Product.productName</h4> 
+              <h3>ราคา @Model.Product?.productPrices?.FirstOrDefault()?.price.ToString("0.##") บาท</h3>
+              <small style="color: gray">* ราคาสินค้าเป็นไปตามตารางด้านล่างนะคะ</small>
+              <div class="clean-text mt-4">
+                  @Html.Raw(@Model.Product?.productDetail)
+              </div>
+              <div class="table-responsive">
+                  <table class="table">
+                      <thead>
+                        <tr>
+                          <th scope="col">ขนาด</th>
+                          <th scope="col">ราคา</th>
+                          <th scope="col">ขั้นต่ำ</th>
+                          <th scope="col">...</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        @foreach (var item in @Model.Product.productPrices)
+                        {
+                            <tr>
+                              <td>@item.Size</td>
+                              <td>@item.price.ToString("0.##") </td>
+                              <td>@item.minimum</td>
+                              <td>@item.remark</td>
+                            </tr>
+                        }
+                      </tbody>
+                    </table>
+              </div>
+              @*<p>ไม้อัดเคลือบฟิล์มดำ เกรด AA มาตรฐานการผลิตคุณภาพดีจาก แบรนด์ สิงห์โต ผู้นำเข้าไม้อัดจากต่างประเทศ 
                   ไม่ว่าจะเป็นประเทศจีน ประเทศมาเลเซีย ประเทศเวียดนาม เนื้อไม้มีความหนาแน่นสูง ทนทาน แข็งแรง
                   <br>
                   <br>
@@ -54,7 +81,7 @@
                   <br>
                   <br>
                   สามารถติดต่อสอบถามหรือสั่งซื้อได้ทั้งสองช่องทางด้านล่างได้เลยนะคะ 
-              </p>
+              </p>*@
               <div class="text-center">
                 <div class="md-12">
                     <button type="button" class="btn btn-xs btn-primary m-2" data-toggle="modal" data-target="#exampleModal">
@@ -65,13 +92,11 @@
                     <b>Scan QRCode เพื่อติดต่อสอบถามหรือสั่งซืื้อ </b>
                 </div>
                 <div class="md-12">
-                    <img width="150" src="https://qr-official.line.me/gs/M_067vmrrf_GW.png?oat_content=qr">
+                    <a href="https://lin.ee/1h0t3OF">
+                        <img width="150" src="https://qr-official.line.me/gs/M_067vmrrf_GW.png?oat_content=qr">
+                    </a>
                 </div>
               </div>
-             @* <ul class="social-icons text-center">
-                <li><img width="150" src="https://qr-official.line.me/gs/M_067vmrrf_GW.png?oat_content=qr"></li>
-              </ul>*@
-              
             </div>
           </div>
         </div>
@@ -90,15 +115,19 @@
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
+    @using (Html.BeginForm("Order", "Product", FormMethod.Post))
+    {
       <div class="modal-body">
         <div class="col-lg-12 col-md-12 col-sm-12">
-            <input name="name" type="text" class="form-control" id="name" placeholder="เบอร์โทร" required="">
+            @Html.TextBoxFor(model => model.mobileNo, new { @class = "form-control", @placeholder="เบอร์โทรศัพทย์" })
+            @Html.HiddenFor(model => model.productId, new { Value = @Model.Product.id })
         </div>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <a class="btn btn-primary" href="@Url.Action("Order","Product",  new { productId = 1})">ติดต่อสอบถาม | สั่งซืื้อ</a>
+        <button type="submit" class="btn btn-primary">ติดต่อสอบถาม | สั่งซืื้อ</button>
       </div>
+    }
     </div>
   </div>
 </div>

@@ -42,28 +42,18 @@
             {
               <div class="col-md-4">
                   <div class="product-item">
-                      <a href='@Url.Action("Index", "Product")'>
+                      <a href='@Url.Action("Details", "Product", new {id = item.id})'>
                         <div class="image-container" style="width: 100%!important;  height: 300px!important;  position: relative!important;  overflow: hidden!important;">
                             <img src='@item.coverUrl' alt="" style=" width: 100%!important;  height: 100%!important;  object-fit: contain!important;">
                         </div>
                       </a>
                     <div class="down-content">
-                      <a href='@Url.Action("Index", "Product")'>
+                      <a href='@Url.Action("Details", "Product", new {id = item.id})'>
                         <h4>@item.productName</h4>
                       </a>
-                      @* <h6>@item.productPrices.FirstOrDefault()?.price.ToString("0.##")</h6> *@
                       <b>ราคา: @item.productPrices.FirstOrDefault()?.price.ToString("0.##") บาท</b>
-                      @* <p>Lorem ipsume dolor sit amet, adipisicing elite. Itaque, corporis nulla aspernatur.</p> *@
-                      @* <p>@item.productDetail2</p> *@
-                      <p>เหมาะสำหรับงานก่อสร้างทั่วไป งานก่อสร้างอาคารสูง และงานต่างๆที่ต้องการความแข็งแรงทนทานของแบบ.</p>
-                      @* <p>@Html.Raw(item.productDetail)</p> *@
-                      @* <ul class="stars mb-2">
-                        <li><i class="fa fa-star"></i></li>
-                        <li><i class="fa fa-star"></i></li>
-                        <li><i class="fa fa-star"></i></li>
-                        <li><i class="fa fa-star"></i></li>
-                        <li><i class="fa fa-star"></i></li>
-                      </ul> *@
+                      <p>@item.productDetail2</p>
+                      @*<p>เหมาะสำหรับงานก่อสร้างทั่วไป งานก่อสร้างอาคารสูง และงานต่างๆที่ต้องการความแข็งแรงทนทานของแบบ.</p>*@
                       <ul class="stars mt-2">
                         <li style="color:#d44d4d">ส่งฟรี!! ตามเงื่อนไขที่กำหนด</li>
                       </ul>
@@ -97,7 +87,7 @@
                 <li><a href="#">NWd Architects</a></li>
                 <li><a href="#">Sumitomo Mitsui Construction</a></li>
               </ul>
-              <a href="about.html" class="filled-button">Read More</a>
+              <a href="@Url.Action("Index","ContactUs")" class="filled-button">Read More</a>
             </div>
           </div>
           <div class="col-md-6">

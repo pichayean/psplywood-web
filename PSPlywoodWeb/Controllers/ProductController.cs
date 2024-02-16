@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using PSPlywoodWeb.Models.Products;
 using PSPlywoodWeb.Services;
+using PSPlywoodWeb.Services.ResultModel;
 
 namespace PSPlywoodWeb.Controllers
 {
@@ -21,17 +22,51 @@ namespace PSPlywoodWeb.Controllers
 
         public async Task<IActionResult> Index()
         {
-            var products = await _service.GetProductsAsync(1);
-            return View();
+            var products = await _service.GetProductsAsync(0);
+            var categories = await _service.GetCategoriesAsync();
+            if (products.Any() && products.Count < 6)
+            {
+                foreach (var item in products)
+                {
+                    item.productName = item.productName.Length > 30 ? item.productName.Substring(0, 30) + "..." : item.productName;
+                }
+                var cnt = 6 - products.Count;
+                for (var i = 0; i < cnt; i++)
+                {
+                    products.Add(products.FirstOrDefault());
+                }
+            }
+            return View(new ProductListViewModel
+            {
+                Categories = categories,
+                Products = products,
+            });
         }
 
         public async Task<IActionResult> Details(int? id)
         {
-            return View();
+            if (id == null)
+                return RedirectToAction("index");
+
+            var product = await _service.GetProductDetailAsync((int)id);
+            if (product != null)
+            {
+                if (product.productPrices?.Any()??false)
+                {
+                    product.productPrices = product.productPrices.OrderBy(_ => _.price).ToList();
+                }
+            }
+
+            var categories = await _service.GetCategoriesAsync();
+            return View(new ProductDetailViewModel
+            {
+                Categorie = categories?.FirstOrDefault(_=>_.id == product.categoryId)??new CategoryResultModel(),
+                Product = product,
+            });
         }
-        public async Task<IActionResult> Order(int? productId)
+        public async Task<IActionResult> Order(ProductDetailViewModel model)
         {
-            await _service.SendMessage("085-5254-556", productId?.ToString());
+            await _service.SendMessage(model.mobileNo, model.productId);
             return RedirectToAction("AlertMessage", "Product");
         }
         public async Task<IActionResult> AlertMessage()

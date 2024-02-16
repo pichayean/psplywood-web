@@ -818,9 +818,39 @@ footer .inner-content p a {
 }
 
 
+/* Find Us */
+/*
+.product-dtail {
+	margin-top: 100px;
+}
+
+.product-dtail p {
+	border-bottom: 1px solid #eee;
+	padding-bottom: 30px;
+	margin-bottom: 30px;
+}
+
+.product-dtail h4 {
+	font-size: 17px;
+	color: #1a6692;
+	margin-bottom: 20px;
+}
+
+.product-dtail .left-content {
+	margin-left: 30px;
+}*/
+
+
+
 
 
 /* Find Us */
+/*.find-us .clean-text p {
+	border-bottom: 0 !important;
+	padding-bottom: 5px !important;
+	margin-bottom: 5px !important;
+}*/
+
 
 .find-us {
 	margin-top: 100px;
@@ -842,10 +872,7 @@ footer .inner-content p a {
 	margin-left: 30px;
 }
 
-
-
 /* Send Message */
-
 .send-message {
 	margin-top: 100px;
 }
@@ -1008,6 +1035,9 @@ footer .inner-content p a {
 	}
 	.send-message .accordion {
 		margin-top: 30px;
+		margin-left: 0px;
+	}
+	.product-detail .left-content {
 		margin-left: 0px;
 	}
 }
