@@ -9,8 +9,8 @@ var commonData = Context.Items["CommonData"] as LayoutViewModel;
       <div class="row">
          <div class="col-md-12">
             <div class="text-content">
-               <h4>บทความ</h4>
-               <h2>พีเอสไม้อัดไทย</h2>
+               <h4>@commonData?.Setting?.CoverArticleTitle</h4>
+               <h2>@commonData?.Setting?.CoverArticleSubTitle</h2>
             </div>
          </div>
       </div>

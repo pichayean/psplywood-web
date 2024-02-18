@@ -10,8 +10,8 @@ var commonData = Context.Items["CommonData"] as LayoutViewModel;
       <div class="row">
          <div class="col-md-12">
             <div class="text-content">
-               <h4>พีเอสไม้อัดไทย</h4>
-               <h2>ไม้อัดคุณภาพดี ราคาประหยัด!</h2>
+               <h4>@commonData?.Setting?.CoverProductTitle</h4>
+               <h2>@commonData?.Setting?.CoverProductSubTitle</h2>
             </div>
          </div>
       </div>

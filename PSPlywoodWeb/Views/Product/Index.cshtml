@@ -1,5 +1,9 @@
 ﻿@using PSPlywoodWeb.Models.Products;
+@using PSPlywoodWeb.Models;
 @model PSPlywoodWeb.Models.Products.ProductListViewModel;
+@{
+var commonData = Context.Items["CommonData"] as LayoutViewModel;
+}
 
     <!-- Page Content -->
     <div class="page-heading products-heading header-text">
@@ -7,8 +11,8 @@
         <div class="row">
           <div class="col-md-12">
             <div class="text-content">
-              <h4>พีเอสไม้อัดไทย</h4>
-              <h2>สินค้าของเรา</h2>
+               <h4>@commonData?.Setting?.CoverProductTitle</h4>
+               <h2>@commonData?.Setting?.CoverProductSubTitle</h2>
             </div>
           </div>
         </div>
