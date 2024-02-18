@@ -31,7 +31,6 @@ app.Use(async (context, next) =>
         Contact = contact
     };
     context.Items["CommonData"] = data;
-    // Call the next delegate/middleware in the pipeline.
     await next(context);
 });
 
@@ -39,6 +38,12 @@ app.Use(async (context, next) =>
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");
+}
+else
+{
+    app.UseExceptionHandler("/error/handle-exception");
+    app.UseStatusCodePagesWithReExecute("/error/{0}");
+    app.UseHsts();
 }
 app.UseStaticFiles();
 

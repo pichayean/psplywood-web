@@ -20,11 +20,6 @@ namespace PSPlywoodWeb.Services
 
         public async Task<ArticleResultModel> GetArticleAsync(int id)
         {
-            //if (_cache.TryGetValue($"article_{id}", out string data))
-            //{
-            //    return data;
-            //}
-
             var response = await _httpClient.GetAsync($"api/article/getarticle?id={id}");
             if (response.IsSuccessStatusCode)
             {
@@ -65,24 +60,36 @@ namespace PSPlywoodWeb.Services
 
         public async Task<List<CategoryResultModel>> GetCategoriesAsync()
         {
-            var response = await _httpClient.GetAsync("api/categories/getall");
-            if (response.IsSuccessStatusCode)
+            List<CategoryResultModel> cacheData;
+            var cacheKey = "psply_category";
+            if (!_cache.TryGetValue(cacheKey, out cacheData))
             {
-                string responseBody = await response.Content.ReadAsStringAsync();
-                var result = JsonConvert.DeserializeObject<List<CategoryResultModel>>(responseBody);
-                Console.WriteLine($"Received data: {result}");
-                return result == null ? new List<CategoryResultModel>() : result;
+                var response = await _httpClient.GetAsync("api/categories/getall");
+                if (response.IsSuccessStatusCode)
+                {
+                    string responseBody = await response.Content.ReadAsStringAsync();
+                    var result = JsonConvert.DeserializeObject<List<CategoryResultModel>>(responseBody);
+                    Console.WriteLine($"Received data: {result}");
+                    var cacheEntryOptions = new MemoryCacheEntryOptions()
+                        .SetSlidingExpiration(TimeSpan.FromSeconds(3600));
+                    // Save data in cache.
+                    _cache.Set(cacheKey, result, cacheEntryOptions);
+                    return result == null ? new List<CategoryResultModel>() : result;
+                }
+                else
+                {
+                    Console.WriteLine($"Error: {response.StatusCode} - {response.ReasonPhrase}");
+                    return new List<CategoryResultModel>();
+                }
             }
             else
             {
-                Console.WriteLine($"Error: {response.StatusCode} - {response.ReasonPhrase}");
-                return new List<CategoryResultModel>();
+                return cacheData;
             }
         }
 
         public async Task<ContactUsResultModel> GetContactUsAsync()
         {
-
             ContactUsResultModel cacheData;
             var cacheKey = "psply_contact";
             if (!_cache.TryGetValue(cacheKey, out cacheData))
@@ -102,10 +109,7 @@ namespace PSPlywoodWeb.Services
                 else
                 {
                     Console.WriteLine($"Error: {response.StatusCode} - {response.ReasonPhrase}");
-                    return new ContactUsResultModel()
-                    {
-                        
-                    };
+                    return new ContactUsResultModel();
                 }
             }
             else
@@ -133,23 +137,36 @@ namespace PSPlywoodWeb.Services
 
         public async Task<List<ProductResultModel>> GetProductsAsync(int categoryId)
         {
-            string jsonRequest = JsonConvert.SerializeObject(new
+            List<ProductResultModel> cacheData;
+            var cacheKey = "psply_product_list";
+            if (!_cache.TryGetValue(cacheKey, out cacheData))
             {
-                categoryId = -1,
-            });
-            var content = new StringContent(jsonRequest, Encoding.UTF8, "application/json");
-            var response = await _httpClient.PostAsync("api/DisplayShop/GetProductsDisplayLanddingShop", content);
-            if (response.IsSuccessStatusCode)
-            {
-                string responseBody = await response.Content.ReadAsStringAsync();
-                var result = JsonConvert.DeserializeObject<List<ProductResultModel>>(responseBody);
-                Console.WriteLine($"Received data: {result}");
-                return result == null ? new List<ProductResultModel>() : result;
+                string jsonRequest = JsonConvert.SerializeObject(new
+                {
+                    categoryId = -1,
+                });
+                var content = new StringContent(jsonRequest, Encoding.UTF8, "application/json");
+                var response = await _httpClient.PostAsync("api/DisplayShop/GetProductsDisplayLanddingShop", content);
+                if (response.IsSuccessStatusCode)
+                {
+                    string responseBody = await response.Content.ReadAsStringAsync();
+                    var result = JsonConvert.DeserializeObject<List<ProductResultModel>>(responseBody);
+                    Console.WriteLine($"Received data: {result}");
+                    var cacheEntryOptions = new MemoryCacheEntryOptions()
+                        .SetSlidingExpiration(TimeSpan.FromSeconds(3600));
+                    // Save data in cache.
+                    _cache.Set(cacheKey, result, cacheEntryOptions);
+                    return result == null ? new List<ProductResultModel>() : result;
+                }
+                else
+                {
+                    Console.WriteLine($"Error: {response.StatusCode} - {response.ReasonPhrase}");
+                    return new List<ProductResultModel>();
+                }
             }
             else
             {
-                Console.WriteLine($"Error: {response.StatusCode} - {response.ReasonPhrase}");
-                return new List<ProductResultModel>();
+                return cacheData;
             }
         }
 
