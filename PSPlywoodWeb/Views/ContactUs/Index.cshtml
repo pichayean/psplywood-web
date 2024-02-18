@@ -1,69 +1,84 @@
-﻿
-    <!-- Page Content -->
-    <div class="page-heading contact-heading header-text">
-      <div class="container">
-        <div class="row">
-          <div class="col-md-12">
+﻿@using PSPlywoodWeb.Models;
+@model PSPlywoodWeb.Models.ContactUsViewModel;
+@{
+var commonData = Context.Items["CommonData"] as LayoutViewModel;
+}
+<!-- Page Content -->
+<div class="page-heading contact-heading header-text">
+   <div class="container">
+      <div class="row">
+         <div class="col-md-12">
             <div class="text-content">
-              <h4>contact us</h4>
-              <h2>let’s get in touch</h2>
+               <h4>contact us</h4>
+               <h2>let’s get in touch</h2>
             </div>
-          </div>
-        </div>
+         </div>
       </div>
-    </div>
-
-    <div   id="main_product_list"></div>
-
-
-    <div class="find-us">
-      <div class="container">
-        <div class="row">
-          <div class="col-md-12">
+   </div>
+</div>
+<div   id="main_product_list"></div>
+<div class="find-us">
+   <div class="container">
+      <div class="row">
+         <div class="col-md-12">
             <div class="section-heading">
-              <h2>ติดต่อเรา</h2>
+               <h2>ติดต่อเรา</h2>
             </div>
-          </div>
-          <div class="col-md-8">
+         </div>
+         <div class="col-md-8">
             <div id="map">
-              <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d61588.528642678975!2d104.81509336137847!3d15.252352900470928!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31167d637f7312cd%3A0x2a9c2270e4c93f2a!2z4Lie4Li14LmA4Lit4Liq4LmE4Lih4LmJ4Lit4Lix4LiU4LmE4LiX4Lii!5e0!3m2!1sen!2sth!4v1707579685976!5m2!1sen!2sth" width="100%" height="530" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
-              @*<iframe src="https://maps.google.com/maps?q=Av.+L%C3%BAcio+Costa,+Rio+de+Janeiro+-+RJ,+Brazil&t=&z=13&ie=UTF8&iwloc=&output=embed" width="100%" height="530px" frameborder="0" style="border:0" allowfullscreen></iframe>*@
+               <iframe src="@Model.Contact.Longitude" width="100%" height="530" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
             </div>
-          </div>
-          <div class="col-md-4">
+         </div>
+         <div class="col-md-4">
             <div class="left-content">
-              <h4><i class="fa fa-location-arrow"></i> ออฟฟิตเรา ตั้งอยู่ที่</h4>
-              <p>
-                24/35 ซ.สุขาสงเคราะห์11 ถ.สุขาสงเคราะห์ ต.ในเมือง 
-                </br>
-                อ.เมือง จ.อุบลราชธานี 34000
-                </br><i class="fa fa-phone"></i>  085-5254-556
-                </br><i class="fa fa-phone"></i>  045-953-469
-                </br>
-                หรือสามารถเพิ่มเพื่อนใน Line ด้านล่างได้เลยนะคะ 😁
-                </p>
-              <div class="text-center">
-                  <img width="300" src="https://qr-official.line.me/gs/M_067vmrrf_GW.png?oat_content=qr">
-              </div>
+               <h4><i class="fa fa-location-arrow"></i> ออฟฟิตเรา ตั้งอยู่ที่</h4>
+               <p>
+                  @Model.Contact.Paragraph1
+                  </br><i class="fa fa-phone"></i>  @Model.Contact.Phone
+                  </br><i class="fa fa-phone"></i>  @Model.Contact.Paragraph2
+                  </br>
+                  หรือสามารถเพิ่มเพื่อนใน Line ด้านล่างได้เลยนะคะ 😁
+               </p>
+               <div class="text-center">
+                  <img width="300" src="@Model.Contact.Paragraph3">
+               </div>
             </div>
-          </div>
-        </div>
+         </div>
       </div>
-    </div>
-
-              
+   </div>
+</div>
+<div class="call-to-action">
+   <div class="container">
+      <div class="row">
+         <div class="col-md-12">
+            <div class="inner-content">
+               <div class="row">
+                  <div class="col-md-8">
+                     <h4>@commonData?.Setting?.PromotionTitle</h4>
+                     <p>@commonData?.Setting?.PromotionSubTitle</p>
+                  </div>
+                  <div class="col-md-4">
+                     <a href='@Url.Action("Index", "ContactUs")' class="filled-button">ติดต่อเรา | สั่งซื้อเลย</a>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+   </div>
+</div>
 @section Scripts {
-    <script>
-        // Shorthand for $( document ).ready()
-        $(function() {
-            var main_product_list = document.getElementById("main_product_list");
-
-            main_product_list.scrollIntoView({
-              behavior: "smooth",
-              block: "start",
-              inline: "nearest"
-            });
-        })
-
-    </script>
+<script>
+   // Shorthand for $( document ).ready()
+   $(function() {
+       var main_product_list = document.getElementById("main_product_list");
+   
+       main_product_list.scrollIntoView({
+         behavior: "smooth",
+         block: "start",
+         inline: "nearest"
+       });
+   })
+   
+</script>
 }

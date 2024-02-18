@@ -37,11 +37,19 @@ namespace PSPlywoodWeb.Controllers
                     products.Add(products.FirstOrDefault());
                 }
             }
+            var categoriesStr = "";
+            var comma = "";
+            foreach (var item in categories)
+            {
+                categoriesStr += comma + item.categoryName;
+                comma = " | ";
+            }
             return View(new ProductViewModel
             {
                 Categories = categories,
                 Products = products,
                 Contact = contact,
+                categoriesStr = categoriesStr,
                 Settings = settings
             });
         }

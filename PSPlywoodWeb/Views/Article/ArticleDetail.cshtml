@@ -1,0 +1,72 @@
+﻿@using PSPlywoodWeb.Models.Article;
+@model PSPlywoodWeb.Models.Article.ArticleViewModel;
+@using PSPlywoodWeb.Models;
+@{
+var commonData = Context.Items["CommonData"] as LayoutViewModel;
+}
+<div class="page-heading about-heading header-text">
+   <div class="container">
+      <div class="row">
+         <div class="col-md-12">
+            <div class="text-content">
+               <h4>บทความ</h4>
+               <h2>พีเอสไม้อัดไทย</h2>
+            </div>
+         </div>
+      </div>
+   </div>
+</div>
+<div id="main_product_list"></div>
+<div class="best-features about-features">
+   <div class="container">
+      <div class="row mb-4">
+         <div class="col-md-12">
+            <div class="col-md-12">
+               <h2 style="font-size: 28px;	font-weight: 400;color: #1e1e1e;margin-bottom: 15px;">@Model.Article.title</h2>
+               <i class="fa fa-location-arrow"></i> พีเอสไม้อัดไทย
+               <i class="fa fa-phone"></i>  085-5254-556 
+               <i class="fa fa-phone"></i>  045-9534-69  
+               <i class="fa fa-calendar"></i>: @DateTime.Now.ToString("dd/MM/yyyy") <br />
+            </div>
+            <hr />
+            <div>
+               @Html.Raw(@Model.Article.htmlContent)
+            </div>
+         </div>
+      </div>
+   </div>
+</div>
+<div class="call-to-action">
+   <div class="container">
+      <div class="row">
+         <div class="col-md-12">
+            <div class="inner-content">
+               <div class="row">
+                  <div class="col-md-8">
+                     <h4>@commonData?.Setting?.PromotionTitle</h4>
+                     <p>@commonData?.Setting?.PromotionSubTitle</p>
+                  </div>
+                  <div class="col-md-4">
+                     <a href='@Url.Action("Index", "ContactUs")' class="filled-button">ติดต่อเรา | สั่งซื้อเลย</a>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+   </div>
+</div>
+@section Scripts {
+<script>
+   // Shorthand for $( document ).ready()
+   $(function() {
+       var main_product_list = document.getElementById("main_product_list");
+   
+       main_product_list.scrollIntoView({
+         behavior: "smooth",
+         block: "start",
+         inline: "nearest"
+       });
+   })
+   
+</script>
+}

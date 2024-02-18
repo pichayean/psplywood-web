@@ -5,23 +5,21 @@
       <div class="owl-banner owl-carousel">
         <div class="banner-item-01">
           <div class="text-content">
-            <h4>พีเอสไม้อัดไทย</h4>
-            <h3>ให้บริการไม้อัดทุกชนิด</h3>
-            <h3>บริการส่งฟรี</h3>
+            <h4>@Model.Settings.CoverTitle</h4>
+            <h3>@Model.Settings.CoverSubTitle</h3>
+            @*<h3>บริการส่งฟรี</h3>*@
           </div>
         </div>
         <div class="banner-item-02">
           <div class="text-content">
-            <h4>สนใจติดต่อ</h4>
-            <h3>09X-XXXX-XXX</h3>
-            <h3>09X-XXXX-XXX</h3>
+            <h4>@Model.Settings.Cover2Title</h4>
+            <h3>@Model.Settings.Cover2SubTitle</h3>
           </div>
         </div>
         <div class="banner-item-03">
           <div class="text-content">
-            @*<h4>สนใจติดต่อ</h4>
-            <h3>09X-XXXX-XXX</h3>
-            <h3>09X-XXXX-XXX</h3>*@
+            <h4>@Model.Settings.Cover3Title</h4>
+            <h3>@Model.Settings.Cover3SubTitle</h3>
           </div>
         </div>
       </div>
@@ -35,7 +33,7 @@
             <div class="col-md-12">
               <div class="section-heading">
                 <h2>สินค้าของเรา</h2> 
-                <a href='@Url.Action("Index", "Product")'>ไม้แบบก่อสร้าง | ไม้งานเฟอร์นิเจอร์ | สินค้าทั้งหมด <i class="fa fa-angle-right"></i></a>
+                    <a href='@Url.Action("Index", "Product")'>@Model.categoriesStr <i class="fa fa-angle-right"></i></a>
               </div>
             </div>
             @foreach (var item in Model.Products)
@@ -53,7 +51,6 @@
                       </a>
                       <b>ราคา: @item.productPrices.FirstOrDefault()?.price.ToString("0.##") บาท</b>
                       <p>@item.productDetail2</p>
-                      @*<p>เหมาะสำหรับงานก่อสร้างทั่วไป งานก่อสร้างอาคารสูง และงานต่างๆที่ต้องการความแข็งแรงทนทานของแบบ.</p>*@
                       <ul class="stars mt-2">
                         <li style="color:#d44d4d">ส่งฟรี!! ตามเงื่อนไขที่กำหนด</li>
                       </ul>
@@ -79,7 +76,7 @@
           <div class="col-md-6">
             <div class="left-content">
               <h4>คุณกำลังมองหาไม้อัดคุณภาพดี ราคาไม่แพง?</h4>
-              <p><a rel="nofollow" href="https://templatemo.com/tm-546-sixteen-clothing" target="_parent">พีเอสไม้อัด</a> เราให้บริการไม้อัดมายาวนาน, ตั้งแต่ 2550 ส่งมอบสินค้ามากมาายให้กับลูกค้า ทั้งงานเล็กงานใหญ่ เราพร้อมให้บริการ, เรามีไม้อัดมากมายพร้อมให้บริการ หากคุณต้องการไม้อัด คิดถึงเรา. <a rel="nofollow" href="https://templatemo.com/contact">ติดต่อเรา</a> เพื่อสอบถามเพิ่มเติม.</p>
+              <p><a rel="nofollow" href="@Model.Contact.Line2" target="_parent">พีเอสไม้อัด</a> เราให้บริการไม้อัดมายาวนาน, ตั้งแต่ 2550 ส่งมอบสินค้ามากมาายให้กับลูกค้า ทั้งงานเล็กงานใหญ่ เราพร้อมให้บริการ, เรามีไม้อัดมากมายพร้อมให้บริการ หากคุณต้องการไม้อัด คิดถึงเรา. <a rel="nofollow" href="@Model.Contact.Line2">ติดต่อเรา</a> เพื่อสอบถามเพิ่มเติม.</p>
               <b>ส่วนหนึ่งของ ลูกค้าของเรา</b>
               <ul class="featured-list">
                 <li><a href="#">Too design & consultant</a></li>
@@ -107,8 +104,8 @@
             <div class="inner-content">
               <div class="row">
                 <div class="col-md-8">
-                  <h4>ไม้อัดคุณภาพดี <em>PS</em> Plywood</h4>
-                  <p>พีเอสไม้อัดไทย, 08X-XXXX-XXX. ติดต่อเราได้ทุกช่องทาง, ใช้งานจำนวนเยอะ จำนวนน้อย เรายินดีให้บริการค่ะ.</p>
+                  <h4>@Model.Settings.PromotionTitle</h4>
+                  <p>@Model.Settings.PromotionSubTitle</p>
                 </div>
                 <div class="col-md-4">
                   <a href='@Url.Action("Index", "ContactUs")' class="filled-button">ติดต่อเรา | สั่งซื้อเลย</a>

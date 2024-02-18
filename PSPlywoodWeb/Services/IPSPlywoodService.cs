@@ -15,5 +15,7 @@ namespace PSPlywoodWeb.Services
         //api/categories/getall
         Task<List<CategoryResultModel>> GetCategoriesAsync();
         Task SendMessage(string mobileNumber, string productId);
+        Task<List<ArticleResultModel>> GetArticlesAsync();
+        Task<ArticleResultModel> GetArticleAsync(int id);
     }
 }

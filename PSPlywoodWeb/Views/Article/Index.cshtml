@@ -1,0 +1,88 @@
+﻿@using PSPlywoodWeb.Models.Article;
+@using PSPlywoodWeb.Models;
+@model PSPlywoodWeb.Models.Article.ArticleListViewModel;
+
+@{
+var commonData = Context.Items["CommonData"] as LayoutViewModel;
+}
+<div class="page-heading about-heading header-text">
+   <div class="container">
+      <div class="row">
+         <div class="col-md-12">
+            <div class="text-content">
+               <h4>บทความ</h4>
+               <h2>พีเอสไม้อัดไทย</h2>
+            </div>
+         </div>
+      </div>
+   </div>
+</div>
+<div   id="main_product_list"></div>
+<div class="best-features about-features">
+   <div class="container">
+      @foreach (var item in Model.Articles)
+      {
+      <div class="row mb-4">
+         <div class="col-md-12">
+            <div class="section-heading">
+               <h2>@item.title</h2>
+            </div>
+         </div>
+         <div class="col-md-6">
+            <a href='@Url.Action("ArticleDetail", "Article", new { id = @item.id })'>
+               <div class="right-image">
+                  <img src="@item.coverUrl" alt="">
+               </div>
+            </a>
+         </div>
+         <div class="col-md-6">
+            <div class="left-content">
+               <a href='@Url.Action("ArticleDetail", "Article", new { id = @item.id })'>
+                  <h4>@item.title</h4>
+               </a>
+               <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sed voluptate nihil eum consectetur similique? Consectetur, quod, incidunt, harum nisi dolores delectus reprehenderit voluptatem perferendis dicta dolorem non blanditiis ex fugiat. Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
+               <ul class="social-icons">
+                  <li><a href="#"><i class="fa fa-share-alt"></i></a></li>
+               </ul>
+            </div>
+         </div>
+      </div>
+      <hr />
+      }
+   </div>
+</div>
+
+<div class="call-to-action">
+    <div class="container">
+    <div class="row">
+        <div class="col-md-12">
+        <div class="inner-content">
+            <div class="row">
+            <div class="col-md-8">
+                <h4>@commonData?.Setting?.PromotionTitle</h4>
+                <p>@commonData?.Setting?.PromotionSubTitle</p>
+            </div>
+            <div class="col-md-4">
+                <a href='@Url.Action("Index", "ContactUs")' class="filled-button">ติดต่อเรา | สั่งซื้อเลย</a>
+            </div>
+            </div>
+        </div>
+        </div>
+    </div>
+    </div>
+</div>
+@section Scripts {
+<script>
+   // Shorthand for $( document ).ready()
+   $(function() {
+       var main_product_list = document.getElementById("main_product_list");
+   
+       main_product_list.scrollIntoView({
+         behavior: "smooth",
+         block: "start",
+         inline: "nearest"
+       });
+   })
+   
+</script>
+}

@@ -1,116 +1,132 @@
 ﻿@using PSPlywoodWeb.Models.Products;
+@using PSPlywoodWeb.Models;
 @model PSPlywoodWeb.Models.Products.ProductDetailViewModel;
-
-    <!-- Page Content -->
-    <div class="page-heading products-heading header-text">
-      <div class="container">
-        <div class="row">
-          <div class="col-md-12">
+@{
+var commonData = Context.Items["CommonData"] as LayoutViewModel;
+}
+<!-- Page Content -->
+<div class="page-heading products-heading header-text">
+   <div class="container">
+      <div class="row">
+         <div class="col-md-12">
             <div class="text-content">
-              <h4>พีเอสไม้อัดไทย</h4>
-              <h2>ไม้อัดคุณภาพดี ราคาประหยัด!</h2>
+               <h4>พีเอสไม้อัดไทย</h4>
+               <h2>ไม้อัดคุณภาพดี ราคาประหยัด!</h2>
             </div>
-          </div>
-        </div>
+         </div>
       </div>
-    </div>
-    
-    <div   id="main_product_list"></div>
-
-    <div class="find-us">
-      <div class="container">
-        <div class="row">
-          <div class="col-md-12">
+   </div>
+</div>
+<div id="main_product_list"></div>
+<div class="find-us">
+   <div class="container">
+      <div class="row">
+         <div class="col-md-12">
             <div class="section-heading">
-              <h2>@Model.Product.productName</h2> 
+               <h2>@Model.Product.productName</h2>
             </div>
-          </div>
-          <div class="col-md-8">
+         </div>
+         <div class="col-md-8">
             <div class="col-md-12">
-              <img width="100%" src='@Model.Product.coverUrl' alt="..." class="img-thumbnail">
-              @*<img width="100%" src="https://m.media-amazon.com/images/I/812LEj2EdZL._AC_UF1000,1000_QL80_.jpg" alt="..." class="img-thumbnail">*@
+               <img width="100%" 
+                  id="image_cover"
+                  src='@Model.Product.coverUrl' 
+                  alt="..." class="img-thumbnail">
+               @*<img width="100%" src="https://m.media-amazon.com/images/I/812LEj2EdZL._AC_UF1000,1000_QL80_.jpg" alt="..." class="img-thumbnail">*@
             </div>
             <div class="col-md-12 mt-4 mb-4" >
-                @for (int i = 0; i < 8; i++)
-                {
-                    <img width="100" style="margin-bottom:1px" src="https://m.media-amazon.com/images/I/812LEj2EdZL._AC_UF1000,1000_QL80_.jpg" alt="..." class="img-thumbnail">
-                }
+               @foreach (var item in Model.Product.imageProducts)
+               {
+               <img width="100" 
+                  class="image_sub img-thumbnail"
+                  style="margin-bottom:1px"
+                  data-id="@item.src"
+                  src="@item.src" 
+                  alt="..." >
+               }
             </div>
-          </div>
-          <div class="col-md-4">
+         </div>
+         <div class="col-md-4">
             <div class="left-content">
-              <h4>@Model.Product.productName</h4> 
-              <h3>ราคา @Model.Product?.productPrices?.FirstOrDefault()?.price.ToString("0.##") บาท</h3>
-              <small style="color: gray">* ราคาสินค้าเป็นไปตามตารางด้านล่างนะคะ</small>
-              <div class="clean-text mt-4">
+               <h4>@Model.Product.productName</h4>
+               <h3>ราคา @Model.Product?.productPrices?.FirstOrDefault()?.price.ToString("0.##") บาท</h3>
+               <small style="color: gray">* ราคาสินค้าเป็นไปตามตารางด้านล่างนะคะ</small>
+               <div class="clean-text mt-4">
                   @Html.Raw(@Model.Product?.productDetail)
-              </div>
-              <div class="table-responsive">
+               </div>
+               <div class="table-responsive">
                   <table class="table">
-                      <thead>
+                     <thead>
                         <tr>
-                          <th scope="col">ขนาด</th>
-                          <th scope="col">ราคา</th>
-                          <th scope="col">ขั้นต่ำ</th>
-                          <th scope="col">...</th>
+                           <th scope="col">ขนาด</th>
+                           <th scope="col">ราคา</th>
+                           <th scope="col">ขั้นต่ำ</th>
+                           <th scope="col">...</th>
                         </tr>
-                      </thead>
-                      <tbody>
-                        @foreach (var item in @Model.Product.productPrices)
+                     </thead>
+                     <tbody>
+                        @foreach (var item in @Model?.Product?.productPrices)
                         {
-                            <tr>
-                              <td>@item.Size</td>
-                              <td>@item.price.ToString("0.##") </td>
-                              <td>@item.minimum</td>
-                              <td>@item.remark</td>
-                            </tr>
+                        <tr>
+                           <td>@item.Size</td>
+                           <td>@item.price.ToString("0.##") </td>
+                           <td>@item.minimum</td>
+                           <td>@item.remark</td>
+                        </tr>
                         }
-                      </tbody>
-                    </table>
-              </div>
-              @*<p>ไม้อัดเคลือบฟิล์มดำ เกรด AA มาตรฐานการผลิตคุณภาพดีจาก แบรนด์ สิงห์โต ผู้นำเข้าไม้อัดจากต่างประเทศ 
-                  ไม่ว่าจะเป็นประเทศจีน ประเทศมาเลเซีย ประเทศเวียดนาม เนื้อไม้มีความหนาแน่นสูง ทนทาน แข็งแรง
-                  <br>
-                  <br>
-                  พร้อมเคลือบฟิล์มดำทำให้ทนต่อการใช้งานกลางแจ้ง เหมาะสำหรับงานก่อสร้าง งานหล่อแบบเสา 
-                  โดยสามารถนำกลับมาใช้ใหม่ได้หลายครั้ง
-                  
-                  <br>
-                  <br>
-                  รหัสสินค้า: 60143957
-                  <br>
-                  <br>
-                  สามารถติดต่อสอบถามหรือสั่งซื้อได้ทั้งสองช่องทางด้านล่างได้เลยนะคะ 
-              </p>*@
-              <div class="text-center">
-                <div class="md-12">
-                    <button type="button" class="btn btn-xs btn-primary m-2" data-toggle="modal" data-target="#exampleModal">
-                    ติดต่อสอบถาม | สั่งซืื้อ
-                    </button>
-                </div>
-                <div class="md-12 mt-2">
-                    <b>Scan QRCode เพื่อติดต่อสอบถามหรือสั่งซืื้อ </b>
-                </div>
-                <div class="md-12">
-                    <a href="https://lin.ee/1h0t3OF">
-                        <img width="150" src="https://qr-official.line.me/gs/M_067vmrrf_GW.png?oat_content=qr">
-                    </a>
-                </div>
-              </div>
+                     </tbody>
+                  </table>
+               </div>
+               <div class="text-center">
+                  <div class="md-12">
+                     <button type="button" class="btn btn-xs btn-primary m-2" data-toggle="modal" data-target="#exampleModal">
+                     ติดต่อสอบถาม | สั่งซืื้อ
+                     </button>
+                  </div>
+                  <div class="md-12 mt-2">
+                     <b>Scan QRCode เพื่อติดต่อสอบถามหรือสั่งซืื้อ </b>
+                  </div>
+                  <div class="md-12">
+                     <a href="@commonData?.Contact?.Line2">
+                     <img width="150" src="@commonData?.Contact?.Paragraph3">
+                     </a>
+                  </div>
+               </div>
             </div>
-          </div>
-        </div>
+         </div>
       </div>
-    </div>
+   </div>
+</div>
 
 
-                  
+<div class="call-to-action">
+   <div class="container">
+      <div class="row">
+         <div class="col-md-12">
+            <div class="inner-content">
+               <div class="row">
+                  <div class="col-md-8">
+                     <h4>@commonData?.Setting?.PromotionTitle</h4>
+                     <p>@commonData?.Setting?.PromotionSubTitle</p>
+                  </div>
+                  <div class="col-md-4">
+                     <a href='@Url.Action("Index", "ContactUs")' class="filled-button">ติดต่อเรา | สั่งซื้อเลย</a>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+   </div>
+</div>
+
+
+
 <!-- Modal -->
 <div class="modal fade" style="padding-top:100px" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">กรุณากรอกเบอร์โทรศัพทย์ ทางร้านจะรีบติดต่อกลับโดยเร็วค่ะ</h5>
+        <h5 class="modal-title" id="exampleModalLabel">กรุณากรอกเบอร์โทรศัพท์ ทางร้านจะรีบติดต่อกลับโดยเร็วค่ะ</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -119,12 +135,12 @@
     {
       <div class="modal-body">
         <div class="col-lg-12 col-md-12 col-sm-12">
-            @Html.TextBoxFor(model => model.mobileNo, new { @class = "form-control", @placeholder="เบอร์โทรศัพทย์" })
+            @Html.TextBoxFor(model => model.mobileNo, new { @class = "form-control", @placeholder="เบอร์โทรศัพท์" })
             @Html.HiddenFor(model => model.productId, new { Value = @Model.Product.id })
         </div>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">ปิด</button>
         <button type="submit" class="btn btn-primary">ติดต่อสอบถาม | สั่งซืื้อ</button>
       </div>
     }
@@ -132,17 +148,22 @@
   </div>
 </div>
 @section Scripts {
-    <script>
-        // Shorthand for $( document ).ready()
-        $(function() {
-            var main_product_list = document.getElementById("main_product_list");
-
-            main_product_list.scrollIntoView({
-              behavior: "smooth",
-              block: "start",
-              inline: "nearest"
-            });
-        })
-
-    </script>
+<script>
+   // Shorthand for $( document ).ready()
+   $(function() {
+       var main_product_list = document.getElementById("main_product_list");
+   
+       main_product_list.scrollIntoView({
+         behavior: "smooth",
+         block: "start",
+         inline: "nearest"
+       });
+   
+       
+       $(".image_sub").click(function () {
+           var my_id_value = $(this).data('id');
+           $("#image_cover").attr("src",my_id_value);
+       })
+   })
+</script>
 }

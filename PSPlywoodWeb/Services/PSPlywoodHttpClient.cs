@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using Microsoft.Extensions.Caching.Memory;
+using Newtonsoft.Json;
 using PSPlywoodWeb.Services.ResultModel;
 using System.Net.Http.Headers;
 using System.Text;
@@ -8,10 +9,58 @@ namespace PSPlywoodWeb.Services
     public class PSPlywoodHttpClient : IPSPlywoodService
     {
         private readonly HttpClient _httpClient;
+        private readonly IMemoryCache _cache;
+        private SettingsResultModel _settingsResultModel;
 
-        public PSPlywoodHttpClient(HttpClient httpClient)
+        public PSPlywoodHttpClient(HttpClient httpClient, IMemoryCache cache)
         {
             _httpClient = httpClient;
+            _cache = cache;
+        }
+
+        public async Task<ArticleResultModel> GetArticleAsync(int id)
+        {
+            //if (_cache.TryGetValue($"article_{id}", out string data))
+            //{
+            //    return data;
+            //}
+
+            var response = await _httpClient.GetAsync($"api/article/getarticle?id={id}");
+            if (response.IsSuccessStatusCode)
+            {
+                string responseBody = await response.Content.ReadAsStringAsync();
+                var result = JsonConvert.DeserializeObject<ArticleResultModel>(responseBody);
+                Console.WriteLine($"Received data: {result}");
+                return result == null ? new ArticleResultModel() : result;
+            }
+            else
+            {
+                Console.WriteLine($"Error: {response.StatusCode} - {response.ReasonPhrase}");
+                return new ArticleResultModel();
+            }
+        }
+
+        public async Task<List<ArticleResultModel>> GetArticlesAsync()
+        {
+            string jsonRequest = JsonConvert.SerializeObject(new
+            {
+                visibility = "Public",
+                title = ""
+            });
+            var content = new StringContent(jsonRequest, Encoding.UTF8, "application/json");
+            var response = await _httpClient.PostAsync("api/article/getarticle", content);
+            if (response.IsSuccessStatusCode)
+            {
+                string responseBody = await response.Content.ReadAsStringAsync();
+                var result = JsonConvert.DeserializeObject<List<ArticleResultModel>>(responseBody);
+                Console.WriteLine($"Received data: {result}");
+                return result == null ? new List<ArticleResultModel>() : result;
+            }
+            else
+            {
+                Console.WriteLine($"Error: {response.StatusCode} - {response.ReasonPhrase}");
+                return new List<ArticleResultModel>();
+            }
         }
 
         public async Task<List<CategoryResultModel>> GetCategoriesAsync()
@@ -33,18 +82,35 @@ namespace PSPlywoodWeb.Services
 
         public async Task<ContactUsResultModel> GetContactUsAsync()
         {
-            var response = await _httpClient.GetAsync("api/DisplayShop/GetContactMeDisplayShop");
-            if (response.IsSuccessStatusCode)
+
+            ContactUsResultModel cacheData;
+            var cacheKey = "psply_contact";
+            if (!_cache.TryGetValue(cacheKey, out cacheData))
             {
-                string responseBody = await response.Content.ReadAsStringAsync();
-                var result = JsonConvert.DeserializeObject<ContactUsResultModel>(responseBody);
-                Console.WriteLine($"Received data: {result}");
-                return result == null ? new ContactUsResultModel() : result;
+                var response = await _httpClient.GetAsync("api/DisplayShop/GetContactMeDisplayShop");
+                if (response.IsSuccessStatusCode)
+                {
+                    string responseBody = await response.Content.ReadAsStringAsync();
+                    var result = JsonConvert.DeserializeObject<ContactUsResultModel>(responseBody);
+                    var cacheEntryOptions = new MemoryCacheEntryOptions()
+                        .SetSlidingExpiration(TimeSpan.FromSeconds(3600));
+                    // Save data in cache.
+                    _cache.Set(cacheKey, result, cacheEntryOptions);
+                    Console.WriteLine($"Received data: {result}");
+                    return result == null ? new ContactUsResultModel() : result;
+                }
+                else
+                {
+                    Console.WriteLine($"Error: {response.StatusCode} - {response.ReasonPhrase}");
+                    return new ContactUsResultModel()
+                    {
+                        
+                    };
+                }
             }
             else
             {
-                Console.WriteLine($"Error: {response.StatusCode} - {response.ReasonPhrase}");
-                return new ContactUsResultModel();
+                return cacheData;
             }
         }
 
@@ -89,18 +155,30 @@ namespace PSPlywoodWeb.Services
 
         public async Task<SettingsResultModel> GetSettingsAsync()
         {
-            var response = await _httpClient.GetAsync("api/DisplayShop/GetSettingLanddingShop");
-            if (response.IsSuccessStatusCode)
+            SettingsResultModel cacheData;
+            var cacheKey = "psply_setting";
+            if (!_cache.TryGetValue(cacheKey, out cacheData))
             {
-                string responseBody = await response.Content.ReadAsStringAsync();
-                var result = JsonConvert.DeserializeObject<SettingsResultModel>(responseBody);
-                Console.WriteLine($"Received data: {result}");
-                return result == null ? new SettingsResultModel() : result;
-            }
+                var response = await _httpClient.GetAsync("api/DisplayShop/GetSettingLanddingShop");
+                if (response.IsSuccessStatusCode)
+                {
+                    string responseBody = await response.Content.ReadAsStringAsync();
+                    var result = JsonConvert.DeserializeObject<SettingsResultModel>(responseBody);
+                    var cacheEntryOptions = new MemoryCacheEntryOptions()
+                        .SetSlidingExpiration(TimeSpan.FromSeconds(3600));
+                    // Save data in cache.
+                    _cache.Set(cacheKey, result, cacheEntryOptions);
+                    return result == null ? new SettingsResultModel() : result;
+                }
+                else
+                {
+                    Console.WriteLine($"Error: {response.StatusCode} - {response.ReasonPhrase}");
+                    return new SettingsResultModel();
+                }
+            } 
             else
             {
-                Console.WriteLine($"Error: {response.StatusCode} - {response.ReasonPhrase}");
-                return new SettingsResultModel();
+                return cacheData;
             }
         }
 
@@ -112,7 +190,7 @@ namespace PSPlywoodWeb.Services
                 productId = productId
             });
             var content = new StringContent(jsonRequest, Encoding.UTF8, "application/json");
-            //var response = await _httpClient.PostAsync("api/orders/UserWillOrder", content);
+            var response = await _httpClient.PostAsync("api/orders/UserWillOrder", content);
         }
     }
 }
