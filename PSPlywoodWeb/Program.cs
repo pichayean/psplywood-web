@@ -47,15 +47,16 @@ app.Use(async (context, next) =>
             Contact = contact
         };
         context.Items["CommonData"] = data;
+        // _dataService.SetSiteVisitCounter();
 
         // context.Session.SetString("LastAccess", DateTime.Now.ToString());
-
-        // // Check timestamp to determine if the user is still active
-        // var lastAccess = DateTime.Parse(HttpContext.Session.GetString("LastAccess"));
+        // // // Check timestamp to determine if the user is still active
+        // var lastAccess = DateTime.Parse(context?.Session?.GetString("LastAccess"));
         // var timeSinceLastAccess = DateTime.Now - lastAccess;
         // if (timeSinceLastAccess.TotalMinutes < 15) // Consider the user as online within the last 15 minutes
         // {
         //     // User is online
+        //     _dataService.SetSiteVisitCounter();
         // }
         await next(context);
     }

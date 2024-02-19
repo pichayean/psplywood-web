@@ -90,6 +90,9 @@
                      <li>
                         @*<p><b id="online_user">💚</b> Curent user : 20</p>*@
                         <p><img src="~/psplywood/assets/images/online.gif" /> Curent user : 20</p>
+                         <a href='https://www.free-counters.org/'>... by Free-Counters.org</a> 
+                         <script type='text/javascript' src='https://www.freevisitorcounters.com/auth.php?id=764fd5d49ea666f02fdc493417d8fd95dc1056ac'></script>
+                        <script type="text/javascript" src="https://www.freevisitorcounters.com/en/home/counter/1145842/t/0"></script>
                      </li>
                      <li>
                         <p><i class="fa fa-users"></i> All User Visit : @commonData?.SiteVisitCounter</p>
@@ -167,9 +170,9 @@
          });
       </script>
       
-      @*<script>
-         fetch("../UserOnline/Check", {
-           method: "POST",
+      <script>
+         fetch("../Common/SetUserVisit", {
+           method: "GET",
            //body: JSON.stringify({
            //  userId: 1,
            //  title: "Fix my bugs",
@@ -181,7 +184,7 @@
          })
            .then((response) => response.json())
            .then((json) => console.log(json));
-      </script>*@
+      </script>
       @await RenderSectionAsync("Scripts", required: false)
    </body>
 </html>
