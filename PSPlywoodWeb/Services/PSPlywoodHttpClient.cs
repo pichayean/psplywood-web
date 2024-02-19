@@ -209,5 +209,25 @@ namespace PSPlywoodWeb.Services
             var content = new StringContent(jsonRequest, Encoding.UTF8, "application/json");
             var response = await _httpClient.PostAsync("api/orders/UserWillOrder", content);
         }
+
+        
+
+        public async Task<int> GetSiteVisitCounterAsync()
+        {
+            var response = await _httpClient.GetAsync("api/Settings/GetSiteVisitCounter");
+            if (!response.IsSuccessStatusCode)
+                return 0;
+
+            string responseBody = await response.Content.ReadAsStringAsync();
+            var result = JsonConvert.DeserializeObject<SettingsResultModel>(responseBody);
+            var cnt = result?.SiteVisitCounter??1002;
+            return cnt;
+        }
+        
+
+        public void SetSiteVisitCounter()
+        {
+            _httpClient.GetAsync("api/Settings/SetSiteVisitCounter");
+        }
     }
 }

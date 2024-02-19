@@ -92,7 +92,7 @@
                         <p><img src="~/psplywood/assets/images/online.gif" /> Curent user : 20</p>
                      </li>
                      <li>
-                        <p><i class="fa fa-users"></i> All User Visit : 50,000</p>
+                        <p><i class="fa fa-users"></i> All User Visit : @commonData?.SiteVisitCounter</p>
                      </li>
                      <li>
                         <p><i class="fa fa-calendar"></i>: @DateTime.Now.ToString("dd/MM/yyyy")</p>
@@ -145,6 +145,28 @@
       <script src="@Url.Content("~/psplywood/assets/js/slick.js")"></script>
       <script src="@Url.Content("~/psplywood/assets/js/isotope.js")"></script>
       <script src="@Url.Content("~/psplywood/assets/js/accordions.js")"></script>
+      
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/8.0.0/signalr.min.js" integrity="sha512-7rhBJh1om/W5Ztx7WiYOR9h2wlSaTmPyQMoHFtbT/FVNIA12y6S6I8HY9mrBS1uJ3dSU/R3qaSAXsGYuRjMDxg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+      <script>
+         const hubConnection = new signalR.HubConnectionBuilder()
+            .withUrl("/onlineUsersHub")
+            .build();
+
+         hubConnection.start().then(() => {
+            console.log("SignalR Connected");
+         }).catch(err => console.error(err.toString()));
+
+         hubConnection.on("UserConnected", (username) => {
+            console.log(`${username} connected`);
+            // Update UI to indicate user is online
+         });
+
+         hubConnection.on("UserDisconnected", (username) => {
+            console.log(`${username} disconnected`);
+            // Update UI to indicate user is offline
+         });
+      </script>
+      
       @*<script>
          fetch("../UserOnline/Check", {
            method: "POST",

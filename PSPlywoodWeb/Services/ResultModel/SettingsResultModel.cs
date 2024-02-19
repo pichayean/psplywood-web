@@ -50,5 +50,6 @@
         public string Message6 { get; set; }
         public string Message7 { get; set; }
         public string Message8 { get; set; }
+        public int? SiteVisitCounter { get; set; }
     }
 }

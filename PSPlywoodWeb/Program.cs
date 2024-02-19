@@ -17,24 +17,10 @@ builder.Services.AddHttpClient<IPSPlywoodService, PSPlywoodHttpClient>(httpClien
     httpClient.BaseAddress = new Uri(baseAddress);
 });
 
+builder.Services.AddSignalR();
+
 var app = builder.Build();
 
-
-app.Use(async (context, next) =>
-{
-    var _dataService = context.RequestServices.GetRequiredService<IPSPlywoodService>();
-    var setting = await _dataService.GetSettingsAsync();
-    var contact = await _dataService.GetContactUsAsync();
-    var data = new LayoutViewModel
-    {
-        Setting = setting,
-        Contact = contact
-    };
-    context.Items["CommonData"] = data;
-    await next(context);
-});
-
-// Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");
@@ -45,15 +31,60 @@ else
     app.UseStatusCodePagesWithReExecute("/error/{0}");
     app.UseHsts();
 }
+
+app.Use(async (context, next) =>
+{
+    try
+    {
+        var _dataService = context.RequestServices.GetRequiredService<IPSPlywoodService>();
+        var setting = await _dataService.GetSettingsAsync();
+        var contact = await _dataService.GetContactUsAsync();
+        var siteVIsit = await _dataService.GetSiteVisitCounterAsync();
+        var data = new LayoutViewModel
+        {
+            SiteVisitCounter = siteVIsit,
+            Setting = setting,
+            Contact = contact
+        };
+        context.Items["CommonData"] = data;
+
+        // context.Session.SetString("LastAccess", DateTime.Now.ToString());
+
+        // // Check timestamp to determine if the user is still active
+        // var lastAccess = DateTime.Parse(HttpContext.Session.GetString("LastAccess"));
+        // var timeSinceLastAccess = DateTime.Now - lastAccess;
+        // if (timeSinceLastAccess.TotalMinutes < 15) // Consider the user as online within the last 15 minutes
+        // {
+        //     // User is online
+        // }
+        await next(context);
+    }
+    catch (Exception ex)
+    {
+        // Handle the error within the middleware
+        context.Response.StatusCode = 500;
+        await context.Response.WriteAsync("Internal Server Error: " + ex.Message);
+    }
+});
+
+// Configure the HTTP request pipeline.
 app.UseStaticFiles();
 
 app.UseRouting();
 
 app.UseAuthorization();
 
-app.MapControllerRoute(
-    name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
+app.UseEndpoints(endpoints =>
+{
+    endpoints.MapHub<OnlineUsersHub>("/onlineUsersHub");
+    endpoints.MapControllerRoute(
+        name: "default",
+        pattern: "{controller=Home}/{action=Index}/{id?}");
+});
+
+// app.MapControllerRoute(
+//     name: "default",
+//     pattern: "{controller=Home}/{action=Index}/{id?}");
 
 
 app.Run();
