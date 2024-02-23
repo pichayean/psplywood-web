@@ -19,16 +19,34 @@ builder.Services.AddHttpClient<IPSPlywoodService, PSPlywoodHttpClient>(httpClien
 
 var app = builder.Build();
 
-
+var _userVisit = new List<UserOlnineViewModel>();
 app.Use(async (context, next) =>
 {
     var _dataService = context.RequestServices.GetRequiredService<IPSPlywoodService>();
     var setting = await _dataService.GetSettingsAsync();
     var contact = await _dataService.GetContactUsAsync();
+
+    string name = context?.Request?.Cookies["BrowserIdentifier"];
+    if (name != null)
+    {
+        var ls = _userVisit.Where(_ => _.exep < DateTime.Now);
+        foreach (var item in ls)
+        {
+            _userVisit.Remove(item);
+        }
+
+        var current = _userVisit.FirstOrDefault(_=>_.name == name);
+        if (current == null)
+        {
+            _userVisit.Add(new UserOlnineViewModel { exep = DateTime.Now.AddMinutes(5), name = name });
+        }
+    }
+
     var data = new LayoutViewModel
     {
         Setting = setting,
-        Contact = contact
+        Contact = contact,
+        UserOnlineCnt = _userVisit.Count
     };
     context.Items["CommonData"] = data;
     await next(context);

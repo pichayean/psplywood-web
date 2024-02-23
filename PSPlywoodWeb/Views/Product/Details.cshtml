@@ -23,7 +23,12 @@ var commonData = Context.Items["CommonData"] as LayoutViewModel;
       <div class="row">
          <div class="col-md-12">
             <div class="section-heading">
-               <h2>@Model.Product.productName</h2>
+                <h2>
+                    <button onclick="copyUrl(@Model.Product.id)" type="button"
+                            class="btn btn-xs btn-secondary m-2">
+                        <i class="fa fa-share-alt"></i>
+                    </button> @Model.Product.productName
+                </h2>
             </div>
          </div>
          <div class="col-md-8">
@@ -164,6 +169,26 @@ var commonData = Context.Items["CommonData"] as LayoutViewModel;
            var my_id_value = $(this).data('id');
            $("#image_cover").attr("src",my_id_value);
        })
-   })
+
+    })
+
+    function copyUrl(id) {
+        var Toast = Swal.mixin({
+            toast: true,
+            position: "center-end",
+            showConfirmButton: false,
+            timer: 2000,
+            timerProgressBar: true,
+            didOpen: (toast) => {
+                toast.onmouseenter = Swal.stopTimer;
+                toast.onmouseleave = Swal.resumeTimer;
+        }
+        });
+            window.navigator.clipboard.writeText(`https://web.psplywood.com/Product/Details/${id}`);
+        Toast.fire({
+            icon: "success",
+            title: "คัดลอกสำเร็จ"
+        });
+    }
 </script>
 }
