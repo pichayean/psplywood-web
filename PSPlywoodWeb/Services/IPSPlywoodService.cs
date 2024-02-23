@@ -17,5 +17,7 @@ namespace PSPlywoodWeb.Services
         Task SendMessage(string mobileNumber, string productId);
         Task<List<ArticleResultModel>> GetArticlesAsync();
         Task<ArticleResultModel> GetArticleAsync(int id);
+        Task<int> GetSiteVisitCounterAsync();
+        void SetSiteVisitCounter();
     }
 }
