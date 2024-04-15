@@ -6,5 +6,6 @@ namespace PSPlywoodWeb.Models.Products
     {
         public List<CategoryResultModel> Categories { get; set; }
         public List<ProductResultModel> Products { get; set; }
+        public List<string> Tags { get; set; }
     }
 }

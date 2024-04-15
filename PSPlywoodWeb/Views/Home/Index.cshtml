@@ -3,13 +3,12 @@
     <!-- Banner Starts Here -->
     <div class="banner header-text">
       <div class="owl-banner owl-carousel">
-        <div class="banner-item-01">
+       @*  <div class="banner-item-01">
           <div class="text-content">
             <h4>@Model.Settings.CoverTitle</h4>
             <h3>@Model.Settings.CoverSubTitle</h3>
-            @*<h3>บริการส่งฟรี</h3>*@
           </div>
-        </div>
+        </div> *@
         <div class="banner-item-02">
           <div class="text-content">
             <h4>@Model.Settings.Cover2Title</h4>
@@ -49,7 +48,7 @@
                       <a href='@Url.Action("Details", "Product", new {id = item.id})'>
                         <h4>@item.productName</h4>
                       </a>
-                      <b>ราคา: @item.productPrices.FirstOrDefault()?.price.ToString("0.##") บาท</b>
+                      @* <b>ราคา: @item.productPrices.FirstOrDefault()?.price.ToString("0.##") บาท</b> *@
                       <p>@item.productDetail2</p>
                       <ul class="stars mt-2">
                         <li style="color:#d44d4d">ส่งฟรี!! ตามเงื่อนไขที่กำหนด</li>

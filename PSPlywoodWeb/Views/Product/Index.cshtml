@@ -1,5 +1,7 @@
 ﻿@using PSPlywoodWeb.Models.Products;
 @using PSPlywoodWeb.Models;
+@using PSPlywoodWeb.Common;
+
 @model PSPlywoodWeb.Models.Products.ProductListViewModel;
 @{
 var commonData = Context.Items["CommonData"] as LayoutViewModel;
@@ -27,11 +29,25 @@ var commonData = Context.Items["CommonData"] as LayoutViewModel;
           <div class="col-md-12">
             <div class="filters">
               <ul>
-                  <li class="active" data-filter="*">ทั้งหมด</li>
-                  <li data-filter=".des">ไม้แบบก่อสร้าง</li>
-                  <li data-filter=".dev">ไม้งานเฟอร์นิเจอร์</li>
-                  @*<li data-filter=".gra">ทั้งหมด</li>*@
+                <li class="active" data-filter="*">ทั้งหมด(@Model.Products.Count())</li>
+                <li data-filter=".b">ไม้แบบก่อสร้าง(@Model.Products.Count(_=>_.categoryId == 1))</li>
+                <li data-filter=".a">ไม้งานเฟอร์นิเจอร์(@Model.Products.Count(_ => _.categoryId == 2))</li>
+                <li data-filter=".c">ไม้ประเภทอื่นๆ(@Model.Products.Count(_ => _.categoryId == 3))</li>
               </ul>
+                <div class="mt-3 mb-2">
+                    
+                    <ul>
+                            <li>Tags : </li>
+                    @foreach (var item in Model.Tags)
+                        {
+                            <li data-filter=".@item.ToStringSmart()">
+                                    <span class="badge badge-pill badge-secondary pt-2 pr-2 pl-2">@item</span>
+
+                                @* <span class="badge badge-pill badge-secondary">@item</span> *@
+                            </li>
+                        }
+                    </ul>
+                </div>
             </div>
           </div>
           <div class="col-md-12">
@@ -40,7 +56,10 @@ var commonData = Context.Items["CommonData"] as LayoutViewModel;
                     
             @foreach (var item in Model.Products)
             {
-                    <div class="col-lg-4 col-md-4 all des">
+                    <div class="col-lg-4 col-md-4 all 
+                        @(item.categoryName == "เฟอร์นิเจอร์" ? "a" : item.categoryName == "แบบก่อสร้าง"? "b" : "c")
+                    @item.tag.ToTagsStringSmart()
+                    ">
                       <div class="product-item">
                       <a href='@Url.Action("Details", "Product", new {id = item.id})'>
                         <div class="image-container" style="width: 100%!important;  height: 300px!important;  position: relative!important;  overflow: hidden!important;">
@@ -49,10 +68,9 @@ var commonData = Context.Items["CommonData"] as LayoutViewModel;
                       </a>
                     <div class="down-content">
                       <a href='@Url.Action("Details", "Product", new {id = item.id})'>
-                        <h4>@item.productName</h4>
+                                            <h4>@item.productName</h4>
                       </a>
-                      <b>ราคา: @item.productPrices.FirstOrDefault()?.price.ToString("0.##") บาท</b>
-                      @*<p>เหมาะสำหรับงานก่อสร้างทั่วไป งานก่อสร้างอาคารสูง และงานต่างๆที่ต้องการความแข็งแรงทนทานของแบบ.</p>*@
+                      @* <b>ราคา: @item.productPrices.FirstOrDefault().priceTxt บาท</b> *@
                       <p>@item.productDetail2</p>
                       <ul class="stars mt-2">
                         <li style="color:#d44d4d">ส่งฟรี!! ตามเงื่อนไขที่กำหนด</li>
@@ -64,38 +82,16 @@ var commonData = Context.Items["CommonData"] as LayoutViewModel;
                   </div>
               </div>
             }
-                @*@for (int i = 0; i < 8; i++)
-                {
-                     <div class="col-lg-4 col-md-4 all des">
-                      <div class="product-item">
-                        <a href='@Url.Action("Details", "Product")'><img src="~/psplywood/assets/images/products/product_01.jpg" alt=""></a>
-                        <div class="down-content">
-                          <a href='@Url.Action("Details", "Product")'><h4>Tittle goes here</h4></a>
-                          <h6>$18.25</h6>
-                          <p>Lorem ipsume dolor sit amet, adipisicing elite. Itaque, corporis nulla aspernatur.</p>
-                          <ul class="stars">
-                            <li><i class="fa fa-star"></i></li>
-                            <li><i class="fa fa-star"></i></li>
-                            <li><i class="fa fa-star"></i></li>
-                            <li><i class="fa fa-star"></i></li>
-                            <li><i class="fa fa-star"></i></li>
-                          </ul>
-                          <span>Reviews (12)</span>
-                        </div>
-                      </div>
-                    </div>
-                            
-                }*@
             </div>
           </div>
           <div class="col-md-12">
-            <ul class="pages">
+            @* <ul class="pages">
               <li><a href="#">1</a></li>
               <li class="active"><a href="#">2</a></li>
               <li><a href="#">3</a></li>
               <li><a href="#">4</a></li>
               <li><a href="#"><i class="fa fa-angle-double-right"></i></a></li>
-            </ul>
+            </ul> *@
           </div>
         </div>
       </div>

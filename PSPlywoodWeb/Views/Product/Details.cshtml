@@ -37,7 +37,6 @@ var commonData = Context.Items["CommonData"] as LayoutViewModel;
                   id="image_cover"
                   src='@Model.Product.coverUrl' 
                   alt="..." class="img-thumbnail">
-               @*<img width="100%" src="https://m.media-amazon.com/images/I/812LEj2EdZL._AC_UF1000,1000_QL80_.jpg" alt="..." class="img-thumbnail">*@
             </div>
             <div class="col-md-12 mt-4 mb-4" >
                @foreach (var item in Model.Product.imageProducts)
@@ -54,7 +53,7 @@ var commonData = Context.Items["CommonData"] as LayoutViewModel;
          <div class="col-md-4">
             <div class="left-content">
                <h4>@Model.Product.productName</h4>
-               <h3>ราคา @Model.Product?.productPrices?.FirstOrDefault()?.price.ToString("0.##") บาท</h3>
+               <h3>ราคา @Model.Product?.productPrices?.FirstOrDefault()?.priceTxt บาท</h3>
                <small style="color: gray">* ราคาสินค้าเป็นไปตามตารางด้านล่างนะคะ</small>
                <div class="clean-text mt-4">
                   @Html.Raw(@Model.Product?.productDetail)
@@ -65,7 +64,7 @@ var commonData = Context.Items["CommonData"] as LayoutViewModel;
                         <tr>
                            <th scope="col">ขนาด</th>
                            <th scope="col">ราคา</th>
-                           <th scope="col">ขั้นต่ำ</th>
+                           @* <th scope="col">ขั้นต่ำ</th> *@
                            <th scope="col">...</th>
                         </tr>
                      </thead>
@@ -74,8 +73,8 @@ var commonData = Context.Items["CommonData"] as LayoutViewModel;
                         {
                         <tr>
                            <td>@item.Size</td>
-                           <td>@item.price.ToString("0.##") </td>
-                           <td>@item.minimum</td>
+                           <td>@item.priceTxt </td>
+                           @* <td>@item.minimum</td> *@
                            <td>@item.remark</td>
                         </tr>
                         }

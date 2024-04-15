@@ -11,6 +11,7 @@ namespace PSPlywoodWeb.Services
         private readonly HttpClient _httpClient;
         private readonly IMemoryCache _cache;
         private SettingsResultModel _settingsResultModel;
+        private int ctime = 1200; //1200= 20 minute
 
         public PSPlywoodHttpClient(HttpClient httpClient, IMemoryCache cache)
         {
@@ -71,7 +72,7 @@ namespace PSPlywoodWeb.Services
                     var result = JsonConvert.DeserializeObject<List<CategoryResultModel>>(responseBody);
                     Console.WriteLine($"Received data: {result}");
                     var cacheEntryOptions = new MemoryCacheEntryOptions()
-                        .SetSlidingExpiration(TimeSpan.FromSeconds(3600));
+                        .SetSlidingExpiration(TimeSpan.FromSeconds(ctime));
                     // Save data in cache.
                     _cache.Set(cacheKey, result, cacheEntryOptions);
                     return result == null ? new List<CategoryResultModel>() : result;
@@ -100,7 +101,7 @@ namespace PSPlywoodWeb.Services
                     string responseBody = await response.Content.ReadAsStringAsync();
                     var result = JsonConvert.DeserializeObject<ContactUsResultModel>(responseBody);
                     var cacheEntryOptions = new MemoryCacheEntryOptions()
-                        .SetSlidingExpiration(TimeSpan.FromSeconds(3600));
+                        .SetSlidingExpiration(TimeSpan.FromSeconds(ctime));
                     // Save data in cache.
                     _cache.Set(cacheKey, result, cacheEntryOptions);
                     Console.WriteLine($"Received data: {result}");
@@ -153,7 +154,7 @@ namespace PSPlywoodWeb.Services
                     var result = JsonConvert.DeserializeObject<List<ProductResultModel>>(responseBody);
                     Console.WriteLine($"Received data: {result}");
                     var cacheEntryOptions = new MemoryCacheEntryOptions()
-                        .SetSlidingExpiration(TimeSpan.FromSeconds(3600));
+                        .SetSlidingExpiration(TimeSpan.FromSeconds(ctime));
                     // Save data in cache.
                     _cache.Set(cacheKey, result, cacheEntryOptions);
                     return result == null ? new List<ProductResultModel>() : result;
@@ -170,6 +171,44 @@ namespace PSPlywoodWeb.Services
             }
         }
 
+        public async Task<List<ProductResultModel>> GetAllProductsAsync(int categoryId)
+        {
+            List<ProductResultModel> cacheData;
+            var cacheKey = "psply_all_product_list";
+            if (!_cache.TryGetValue(cacheKey, out cacheData))
+            {
+                string jsonRequest = JsonConvert.SerializeObject(new
+                {
+                    productName = "",
+                    categoryId = categoryId,
+                    visibility = "Public",
+                });
+        var content = new StringContent(jsonRequest, Encoding.UTF8, "application/json");
+                var response = await _httpClient.PostAsync("api/Product/GetProduct", content);
+                if (response.IsSuccessStatusCode)
+                {
+                    string responseBody = await response.Content.ReadAsStringAsync();
+                    var result = JsonConvert.DeserializeObject<List<ProductResultModel>>(responseBody);
+                    Console.WriteLine($"Received data: {result}");
+                    var cacheEntryOptions = new MemoryCacheEntryOptions()
+                        .SetSlidingExpiration(TimeSpan.FromSeconds(ctime));
+                    // Save data in cache.
+                    _cache.Set(cacheKey, result, cacheEntryOptions);
+                    return result == null ? new List<ProductResultModel>() : result;
+                }
+                else
+                {
+                    Console.WriteLine($"Error: {response.StatusCode} - {response.ReasonPhrase}");
+                    return new List<ProductResultModel>();
+                }
+            }
+            else
+            {
+                return cacheData;
+            }
+        }
+
+
         public async Task<SettingsResultModel> GetSettingsAsync()
         {
             SettingsResultModel cacheData;
@@ -182,7 +221,7 @@ namespace PSPlywoodWeb.Services
                     string responseBody = await response.Content.ReadAsStringAsync();
                     var result = JsonConvert.DeserializeObject<SettingsResultModel>(responseBody);
                     var cacheEntryOptions = new MemoryCacheEntryOptions()
-                        .SetSlidingExpiration(TimeSpan.FromSeconds(3600));
+                        .SetSlidingExpiration(TimeSpan.FromSeconds(ctime));
                     // Save data in cache.
                     _cache.Set(cacheKey, result, cacheEntryOptions);
                     return result == null ? new SettingsResultModel() : result;
@@ -228,6 +267,17 @@ namespace PSPlywoodWeb.Services
         public void SetSiteVisitCounter()
         {
             _httpClient.GetAsync("api/Settings/SetSiteVisitCounter");
+        }
+
+        public async Task<List<string>> GetAllTagsAsync()
+        {
+            var response = await _httpClient.GetAsync("api/tags/gettags");
+            if (!response.IsSuccessStatusCode)
+                return new List<string>();
+
+            string responseBody = await response.Content.ReadAsStringAsync();
+            var result = JsonConvert.DeserializeObject<List<string>>(responseBody);
+            return result?? new List<string>();
         }
     }
 }

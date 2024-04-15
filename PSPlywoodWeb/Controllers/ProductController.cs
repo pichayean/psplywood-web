@@ -22,7 +22,8 @@ namespace PSPlywoodWeb.Controllers
 
         public async Task<IActionResult> Index()
         {
-            var products = await _service.GetProductsAsync(0);
+            var tags = await _service.GetAllTagsAsync();
+            var products = await _service.GetAllProductsAsync(-1);
             var categories = await _service.GetCategoriesAsync();
             if (products.Any() && products.Count < 6)
             {
@@ -40,6 +41,7 @@ namespace PSPlywoodWeb.Controllers
             {
                 Categories = categories,
                 Products = products,
+                Tags = tags
             });
         }
 

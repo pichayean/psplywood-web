@@ -41,9 +41,10 @@
         public int? id { get; set; }
         public int? productId { get; set; }
         public string Size { get; set; }
-        public decimal price { get; set; }
+        public decimal? price { get; set; }
+        public string priceTxt { get; set; }
         public string remark { get; set; }
-        public int minimum { get; set; }
+        public int? minimum { get; set; }
         public Nullable<bool> isActive { get; set; }
         public Nullable<bool> isEdit { get; set; }
     }

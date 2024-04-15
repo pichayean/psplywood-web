@@ -19,5 +19,7 @@ namespace PSPlywoodWeb.Services
         Task<ArticleResultModel> GetArticleAsync(int id);
         Task<int> GetSiteVisitCounterAsync();
         void SetSiteVisitCounter();
+        Task<List<ProductResultModel>> GetAllProductsAsync(int categoryId);
+        Task<List<string>> GetAllTagsAsync();
     }
 }
